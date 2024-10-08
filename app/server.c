@@ -43,6 +43,7 @@ typedef struct DNS_HEADER {
 // flags
 // | QR | OPCODE | AA | TC | RD | RA | Z | RCODE |
 // | 1  |   4    | 1  | 1  | 1  | 1  | 3 |   4   |
+// 마스킹으로 클립업하고 비트 쉬프트로 밀어 넣는다.
 */
 #define SET_DNS_QR(flags, val)    ((flags) = ((flags) & 0b0111111111111111) | ((val) << 15))
 #define SET_DNS_OPCODE(flags, val)((flags) = ((flags) & 0b1000011111111111) | ((val) << 11))
@@ -92,8 +93,6 @@ int main() {
    	int bytesRead; char buffer[512];
    	struct sockaddr_in clientAddress;
    	socklen_t clientAddrLen = sizeof(clientAddress);
-
-
    
    while (1) {
        // 데이터 넣어준 주소를 clientAddress에 넣어준다.
